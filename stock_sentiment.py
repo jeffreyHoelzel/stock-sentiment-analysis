@@ -24,9 +24,15 @@ data = api.financial_news(
   limit=100
 )
 
+# url = f'https://eodhd.com/api/eod/AAPL.US?api_token={EODHD_API_KEY}&fmt=json'
+# response = requests.get(url).json()
+# print(response)
+
 # set up dataframe (JSON --> dataframe)
 df = pd.DataFrame(data)
 df.tail()
+
+print(df)
 
 ##### HELPER FUNCTIONS #######################################################################
 def clean_text(text):
