@@ -1,4 +1,39 @@
 QMainWindow {
-  background-color: #070738;
+  background-color: #0d1b2a;
+  color: #e0e1dd;
+  font-family: 'Arial';
 }
 
+QLineEdit#data-input, 
+QPushButton#submit-button {
+  background-color: #e0e1dd;
+  color: #1b263b;
+  font-size: 16px;
+  border: none;
+  border-radius: 3px;
+  padding: 5px;
+}
+
+QLineEdit#data-input {
+  max-width: 220px;
+  min-width: 120px;
+  margin-bottom: 15px;
+}
+
+QPushButton#submit-button {
+  max-width: 120px;
+  min-width: 80px;
+  margin-top: 0;
+}
+
+QLabel#description {
+  background-color: #e0e1dd;
+  color: #1b263b;
+  border: none;
+  border-radius: 5px;
+  width: 200px;
+  height: 200px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+}

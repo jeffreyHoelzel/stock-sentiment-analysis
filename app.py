@@ -16,34 +16,50 @@ class MainWindow(QMainWindow):
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
 
+        # set up general layout
         layout = QVBoxLayout()
 
-        # add logo to top
-        logo_label = QLabel()
-        logo_pixmap = QPixmap("icons/stock_sentiment_bot_icon.jpg")
-        logo_label.setPixmap(logo_pixmap)
-        logo_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(logo_label)
+        # # add logo to top
+        # logo_label = QLabel()
+        # logo_pixmap = QPixmap("icons/stock_sentiment_bot_icon.jpg")
+        # logo_label.setPixmap(logo_pixmap)
+        # logo_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        # logo_label.setObjectName("logo")
+        # # scale pixmap to label
+        # logo_label.setScaledContents(True)
+        # # set label to exact size of pixmap
+        # logo_label.setFixedSize(logo_pixmap.size())
+        # layout.addWidget(logo_label, alignment=Qt.AlignmentFlag.AlignCenter)
+
+        self.description = QLabel()
+        self.description.setText("This is a stock sentiment bot.\nEnter a stock ticker and dates to analyze the stock sentiment over that period of time.")
+        self.description.setFixedSize(500, 200)
+        self.description.setObjectName("description")
+        layout.addWidget(self.description, alignment=Qt.AlignmentFlag.AlignCenter)
 
         # text input for stock ticker
         self.ticker_input = QLineEdit()
         self.ticker_input.setPlaceholderText("Enter stock ticker...")
-        layout.addWidget(self.ticker_input)
+        self.ticker_input.setObjectName("data-input")
+        layout.addWidget(self.ticker_input, alignment=Qt.AlignmentFlag.AlignCenter)
 
         # text input for from date
         self.from_date_input = QLineEdit()
-        self.from_date_input.setPlaceholderText("From...")
-        layout.addWidget(self.from_date_input)
+        self.from_date_input.setPlaceholderText("From date...")
+        self.from_date_input.setObjectName("data-input")
+        layout.addWidget(self.from_date_input, alignment=Qt.AlignmentFlag.AlignCenter)
 
         # text input for to date
         self.to_date_input = QLineEdit()
-        self.to_date_input.setPlaceholderText("To...")
-        layout.addWidget(self.to_date_input)
+        self.to_date_input.setPlaceholderText("To date...")
+        self.to_date_input.setObjectName("data-input")
+        layout.addWidget(self.to_date_input, alignment=Qt.AlignmentFlag.AlignCenter)
 
         # submit button
-        submit_button = QPushButton("Submit")
-        submit_button.clicked.connect(self.handle_submit)
-        layout.addWidget(submit_button)
+        self.submit_button = QPushButton("Submit")
+        self.submit_button.setObjectName("submit-button")
+        self.submit_button.clicked.connect(self.handle_submit)
+        layout.addWidget(self.submit_button, alignment=Qt.AlignmentFlag.AlignCenter)
 
         central_widget.setLayout(layout)
 
