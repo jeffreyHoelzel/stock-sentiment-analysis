@@ -1,4 +1,4 @@
 *.env
 env/
 stock_data.db
-reload_changes.py
+__pycache__/
