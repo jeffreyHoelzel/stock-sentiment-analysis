@@ -1,16 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link rel="stylesheet" href="./styles/home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta http-equiv="X-US-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock Sentiment Analysis Bot</title>
   </head>
   <body>
-    <main>
-      <h1 id="header1"></h1>
-      <button id="button1">GET</button>
-    </main>
+    <div id="main-container" class="main-container">
+      <div class="header-container">
+        <h1 class="main-header">Stock Sentiment Analysis Bot</h1>
+        <p class="description">
+          Welcome to my Stock Sentiment Analysis Bot, to use this application, enter the following information as specified to see a sentiment analysis powered by ChatGPT and provided by EODHD.
+        </p>
+      </div>
+      <div class="form-container">
+        <form id="form-body" class="form-body">
+          <div class="input-container">
+            <label for="ticker-symbol-input">Ticker Symbol</label>
+            <input 
+              type="text" 
+              id="ticker-symbol-input" 
+              placeholder="Enter ticker symbol"
+            >
+            <label for="from-date-input">From</label>
+            <input 
+              type="date" 
+              id="from-date-input"
+            >
+            <label for="to-date-input">To</label>
+            <input 
+              type="date" 
+              id="to-date-input"
+            >
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
     <script src="./app.js"></script>
   </body>
 </html>
