@@ -20,9 +20,16 @@ class StockSentimentDataSchema(mar.Schema):
 one_stock_sentiment_schema = StockSentimentDataSchema()
 many_stock_sentiment_schemas = StockSentimentDataSchema(many=True)
 
-@app.route("/get", methods=["GET"])
+@app.route("/get-insight", methods=["GET"])
 def home_page():
-    return jsonify({"text": "Hello, world!"})
+    # get access query params
+    new_ticker = request.args.get("ticker")
+    new_from_date = request.args.get("fromDate")
+    new_to_date = request.args.get("toDate")
+
+    
+
+    return jsonify({"ticker": f"{new_ticker}", "fromDate": f"{new_from_date}", "toDate": f"{new_to_date}", "summary": "This is an example summary response for a stock ticker."})
 
 # main entry point
 if __name__ == "__main__":

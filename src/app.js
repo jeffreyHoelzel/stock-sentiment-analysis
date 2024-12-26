@@ -1,31 +1,56 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // html elements to use
-  const header1 = document.getElementById("header1");
-  const button1 = document.getElementById("button1");
+  // get html elements for data retrieval, transfer, and formatting on page
+  const tickerSymbolInput = document.getElementById("ticker-symbol-input");
+  const fromDateInput = document.getElementById("from-date-input");
+  const toDateInput = document.getElementById("to-date-input");
+  const formBody = document.getElementById("form-body");
+  const submitButton = document.getElementById("submit-data");
+  const results = document.getElementById("results");
 
-  const renderPage = async () => {
+  // function to fetch response from backend giving stock insight
+  const getStockInsight = async (data) => {
     try {
-      const response = await fetch("http://localhost:5000/get", {
-        method: "GET", 
-        headers: {
-          "Content-Type": "application/json"
-        }
+      const response = await fetch(`http://localhost:5000/get-insight?${data}`, {
+        method: "GET"
       });
 
       if (!response.ok) {
-        throw new Error(`Server responsed with status: ${response.status}`);
+        throw new Error(`Server responsed with status code: ${response.status}`)
+        // handle insertion of error to html
       }
 
-      const data = await response.json();
-      header1.innerHTML += `${data.text}`;
+      // if status is 200 (ok), get data in json format
+      const stockInsightData = await response.json();
+
+      // display data to user
+      results.innerHTML += `
+        <div class="results-container">
+          <h2 class="ticker-header">${stockInsightData.ticker}</h2>
+          <p class="dates"><strong>From:</strong> ${stockInsightData.fromDate}, <strong>To:</strong> ${stockInsightData.toDate}</p>
+          <p class="summary"><strong>Summary:</strong> ${stockInsightData.summary}</p>
+        </div>
+      `;
     } catch (error) {
-      console.log("Error during fetch:", error);
+      console.log(`Error occured while fetching data: ${error}`);
+      // handle insertion of fatal error into html
     }
   }
 
-  button1.addEventListener("click", (e) => {
-    e.preventDefault();
+  // listen for form button clicks
+  submitButton.addEventListener("click", (e) => {
+    // set up stock object and encode as url search param
+    const stockQueryData = {
+      ticker: tickerSymbolInput.value, 
+      fromDate: fromDateInput.value, 
+      toDate: toDateInput.value
+    };
 
-    renderPage();
+    const stockQueryParams = new URLSearchParams(stockQueryData).toString();
+
+    console.log(stockQueryData);
+
+    e.preventDefault();
+    getStockInsight(stockQueryParams);
+    formBody.reset()
   });
 });
