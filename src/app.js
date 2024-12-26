@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
   submitButton.addEventListener("click", (e) => {
     // set up stock object and encode as url search param
     const stockQueryData = {
-      ticker: tickerSymbolInput.value, 
+      ticker: tickerSymbolInput.value.toUpperCase(), 
       fromDate: fromDateInput.value, 
       toDate: toDateInput.value
     };

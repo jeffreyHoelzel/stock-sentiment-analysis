@@ -1,13 +1,13 @@
 import os
 from dotenv import load_dotenv
 import re
-import requests
+# import requests
 import pandas as pd
 from eodhd import APIClient
-from langchain.chains import LLMChain
+# from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 # load api keys
 load_dotenv()
@@ -36,13 +36,15 @@ def count_tokens(text):
 
 # function to get new sentiment score and summary
 def get_summary(query_data):
+    # get financial news data
     eodhd_data = eodhd_api.financial_news(
         s=query_data["ticker"], 
-        from_date=query_data["fromDate"], 
-        to_date=query_data["toDate"], 
+        from_date=query_data["from_date"], 
+        to_date=query_data["to_date"], 
         limit=50
     )
 
+    # create new dataframe using financial news object
     eodhd_df = pd.DataFrame(eodhd_data)
     eodhd_df.tail()
 
@@ -54,26 +56,26 @@ def get_summary(query_data):
         
         Return the sentiment score, where the sentiment score should be from -10 to +10. -10 being the most negative, 
         +10 being the most positive, and 0 being neutral. Please provide a proper exmplanation for your answer. 
-        Keep your response to 250 words at most.
+        Keep your response to 250 words at most. You should return the sentiment score in this format at the end of your 
+        summary: 'Sentiment Score: (score).'
     """
 
     # set up prompt with arguments
     prompt = PromptTemplate(template=prompt_template, input_variables=["statement"])
     chain = prompt | model
 
-    # get response using all 50 articles
-    response = chain.invoke(" ".join(eodhd_df["content"])).content
-    print(response)
+    # return response using all 50 articles
+    return chain.invoke(" ".join(eodhd_df["content"])).content
 
 
 
-data = {
-    "ticker": "AAPL", 
-    "fromDate": "2024-10-01", 
-    "toDate": "2024-11-01"
-}
+# data = {
+#     "ticker": "AAPL", 
+#     "fromDate": "2024-10-01", 
+#     "toDate": "2024-11-01"
+# }
 
-get_summary(data)
+# get_summary(data)
 
 # # get news for apple for example (100 results between 1st and 31st of October 2024)
 # data = eodhd_api.financial_news(

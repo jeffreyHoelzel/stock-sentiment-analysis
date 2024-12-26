@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_marshmallow import Marshmallow
 from database import db
+from stock_sentiment import get_summary
 
 app = Flask(__name__)
 
@@ -23,13 +24,20 @@ many_stock_sentiment_schemas = StockSentimentDataSchema(many=True)
 @app.route("/get-insight", methods=["GET"])
 def home_page():
     # get access query params
-    new_ticker = request.args.get("ticker")
-    new_from_date = request.args.get("fromDate")
-    new_to_date = request.args.get("toDate")
+    new_data = {
+        "ticker": request.args.get("ticker"), 
+        "from_date": request.args.get("fromDate"), 
+        "to_date": request.args.get("toDate")
+    }
 
-    
+    print(new_data)
 
-    return jsonify({"ticker": f"{new_ticker}", "fromDate": f"{new_from_date}", "toDate": f"{new_to_date}", "summary": "This is an example summary response for a stock ticker."})
+    try:
+        response = get_summary(new_data)
+    except Exception as e:
+        return jsonify({"error": f"{e}"}), 400
+
+    return jsonify({"ticker": new_data["ticker"], "fromDate": new_data["from_date"], "toDate": new_data["to_date"], "summary": response}), 200
 
 # main entry point
 if __name__ == "__main__":
