@@ -26,12 +26,12 @@ model = ChatOpenAI(
 
 ##### HELPER FUNCTIONS #######################################################################
 def clean_text(text):
-  cleaned_text = re.sub(r'\s+', ' ', text)
-  return cleaned_text.strip()
+    cleaned_text = re.sub(r'\s+', ' ', text)
+    return cleaned_text.strip()
 
 def count_tokens(text):
-  tokens = text.split()
-  return len(tokens)
+    tokens = text.split()
+    return len(tokens)
 ##############################################################################################
 
 # function to get new sentiment score and summary
@@ -69,49 +69,6 @@ def get_summary(query_data):
 
 
 
-# data = {
-#     "ticker": "AAPL", 
-#     "fromDate": "2024-10-01", 
-#     "toDate": "2024-11-01"
-# }
-
-# get_summary(data)
-
-# # get news for apple for example (100 results between 1st and 31st of October 2024)
-# data = eodhd_api.financial_news(
-#   s='AAPL.US', 
-#   from_date='2024-10-01', 
-#   to_date='2024-10-31', 
-#   limit=100
-# )
-
-# # set up dataframe (JSON --> dataframe)
-# df = pd.DataFrame(data)
-# df.tail()
-
-# print(df)
-
-# # clean text in dataframe
-# df['content'] = df['content'].apply(clean_text)
-
-# print(f'\n==========================TEST 1==========================\n')
-
-# # set up template to construct an optimized prompt 
-# template = """
-# Identify the sentiment towards the Apple(AAPL) stocks from the news article , where the sentiment score should be from -10 to +10 where -10 being the most negative and +10 being the most positve , and 0 being neutral
-
-# Also give the proper explanation for your answers and how would it effect the prices of different stocks
-
-# Article : {statement}
-# """
-
-# # form proper prompt for model
-# prompt = PromptTemplate(template=template, input_variables=['statement'])
-# # set up llm chain
-# chain = prompt | model
-
-# # demo response
-# print(chain.invoke(df['content'][13]).content)
 # print(f'\n==========================TEST 2==========================\n')
 
 # # apply token count to dataframe

@@ -30,8 +30,7 @@ def home_page():
         "to_date": request.args.get("toDate")
     }
 
-    print(new_data)
-
+    # try to get response from api, otherwise, throw bad request
     try:
         response = get_summary(new_data)
     except Exception as e:
