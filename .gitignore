@@ -1,2 +1,8 @@
 *.env
 env/
+stock_data.db
+__pycache__/
+node_modules/
+.db
+instance/
+sentiment_data.db
