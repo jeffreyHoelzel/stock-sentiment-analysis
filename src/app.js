@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!response.ok) {
         throw new Error(`Server responsed with status code: ${response.status}`)
-        // handle insertion of error to html
       }
 
       // if status is 200 (ok), get data in json format
@@ -31,8 +30,12 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       `;
     } catch (error) {
+      results.innerHTML += `
+        <div class="results-container">
+          <p class="error-message">${error.message}.</p>
+        </div>
+      `;
       console.log(`Error occured while fetching data: ${error}`);
-      // handle insertion of fatal error into html
     }
   }
 
@@ -44,10 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
       fromDate: fromDateInput.value, 
       toDate: toDateInput.value
     };
-
     const stockQueryParams = new URLSearchParams(stockQueryData).toString();
-
-    console.log(stockQueryData);
 
     e.preventDefault();
     getStockInsight(stockQueryParams);
