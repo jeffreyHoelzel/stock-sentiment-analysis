@@ -14,6 +14,10 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+########################################################################################
+### Routes
+########################################################################################
+
 @app.route("/get-insight", methods=["GET"])
 def home_page():
     # get access query params
@@ -37,6 +41,11 @@ def home_page():
         "toDate": new_data["to_date"], 
         "summary": summary
     }), 200
+
+
+########################################################################################
+### DB Operations
+########################################################################################
 
 # save new analysis to db
 def save_analysis(user_data, summary, score):
