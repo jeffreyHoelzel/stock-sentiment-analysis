@@ -1,8 +1,11 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
+from datetime import datetime
 from database import db, StockSentimentData
 from stock_sentiment import get_summary
 
 app = Flask(__name__)
+CORS(app)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///sentiment_data.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -28,19 +31,34 @@ def home_page():
     except Exception as e:
         return jsonify({"error": f"{e}"}), 400
 
-    return jsonify({"ticker": new_data["ticker"], "fromDate": new_data["from_date"], "toDate": new_data["to_date"], "summary": summary}), 200
+    return jsonify({
+        "ticker": new_data["ticker"], 
+        "fromDate": new_data["from_date"], 
+        "toDate": new_data["to_date"], 
+        "summary": summary
+    }), 200
 
 # save new analysis to db
 def save_analysis(user_data, summary, score):
+    # set up date objects before storing to db
+    from_date_obj = datetime.strptime(user_data["from_date"], "%Y-%m-%d").date()
+    to_date_obj = datetime.strptime(user_data["to_date"], "%Y-%m-%d").date()
+
     # create sentiment data object
-    new_analysis = StockSentimentData(ticker_symbol=user_data["ticker"], from_date=user_data["from_date"], to_date=user_data["to_date"], score=score, summary=summary)
+    new_analysis = StockSentimentData(
+        ticker_symbol=user_data["ticker"], 
+        from_date=from_date_obj, 
+        to_date=to_date_obj, 
+        score=score, 
+        summary=summary)
 
     try:
         db.session.add(new_analysis)
         db.session.commit()
     except Exception as db_error:
         db.session.rollback()
-        raise Exception(f"Failed to save analysis to database: {str(db_error)}") from db_error
+        print(f"Failed to save analysis to database: {str(db_error)}")
+        raise
 
 # main entry point
 if __name__ == "__main__":

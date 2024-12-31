@@ -22,25 +22,29 @@ document.addEventListener("DOMContentLoaded", () => {
       const stockInsightData = await response.json();
 
       // display data to user
-      results.innerHTML += `
+      const newContent = `
         <div class="results-container">
           <h2 class="ticker-header">${stockInsightData.ticker}</h2>
           <p class="dates"><strong>From:</strong> ${stockInsightData.fromDate}, <strong>To:</strong> ${stockInsightData.toDate}</p>
           <p class="summary"><strong>Summary:</strong> ${stockInsightData.summary}</p>
         </div>
       `;
+      results.insertAdjacentHTML("afterbegin", newContent);
     } catch (error) {
-      results.innerHTML += `
+      const newError = `
         <div class="results-container">
           <p class="error-message">${error.message}.</p>
         </div>
       `;
+      results.insertAdjacentHTML("afterbegin", newError);
       console.log(`Error occured while fetching data: ${error}`);
     }
   }
 
   // listen for form button clicks
   submitButton.addEventListener("click", (e) => {
+    e.preventDefault();
+
     // set up stock object and encode as url search param
     const stockQueryData = {
       ticker: tickerSymbolInput.value.toUpperCase(), 
@@ -49,8 +53,12 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     const stockQueryParams = new URLSearchParams(stockQueryData).toString();
 
-    e.preventDefault();
     getStockInsight(stockQueryParams);
-    formBody.reset()
+    formBody.reset();
+  });
+
+  // attempt tp prevent form from automatically submitting
+  formBody.addEventListener("submit", (e) => {
+    e.preventDefault();
   });
 });
