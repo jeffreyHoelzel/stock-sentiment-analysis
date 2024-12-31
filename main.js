@@ -1,6 +1,6 @@
 const {app, BrowserWindow} = require("electron");
 const path = require("path");
-// require("electron-reload")(__dirname); // turn off when testing
+require("electron-reload")(__dirname); // turn off when testing
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
