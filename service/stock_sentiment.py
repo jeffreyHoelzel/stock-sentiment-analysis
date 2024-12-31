@@ -64,8 +64,12 @@ def get_summary(query_data):
     prompt = PromptTemplate(template=prompt_template, input_variables=["statement"])
     chain = prompt | model
 
-    # return response using all 50 articles
-    return chain.invoke(" ".join(eodhd_df["content"])).content
+    # get response using all 50 articles and parse out sentiment score
+    summary = str(chain.invoke(" ".join(eodhd_df["content"])).content)
+    score = int(re.search(r"Sentiment Score: ([+-]?\d+)", summary).group(1))
+
+    # return tuple of summary and score
+    return summary, score
 
 
 

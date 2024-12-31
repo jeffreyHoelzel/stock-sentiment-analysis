@@ -1,10 +1,16 @@
 const {app, BrowserWindow} = require("electron");
-require("electron-reload")(__dirname);
+const path = require("path");
+// require("electron-reload")(__dirname); // turn off when testing
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 800, 
-    height: 600
+    height: 600, 
+    webPreferences: {
+      nodeIntegration: true, 
+      contextIsolation: false, 
+    }, 
+    icon: path.join(__dirname, "src/icons/favicon.ico")
   });
 
   mainWindow.loadFile("./src/index.html");
